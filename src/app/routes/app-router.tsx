@@ -1,7 +1,7 @@
-import { Navigate, Route, Routes } from "react-router-dom";
-import LoginPage from "../../pages/login/login-page";
-import ProductsPage from "../../pages/products/products-page";
-import ProtectedRoute from "./protected-route";
+import { Navigate, Route, Routes } from 'react-router-dom';
+import LoginPage from '../../pages/login/login-page';
+import ProductsPage from '../../pages/products/products-page';
+import ProtectedRoute from './protected-route';
 
 export function AppRouter() {
     return (
@@ -16,5 +16,5 @@ export function AppRouter() {
                 } />
             <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
-    )
+    );
 }
