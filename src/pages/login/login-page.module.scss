@@ -45,6 +45,13 @@
 
     }
 
+    &__error {
+        min-height: 16px;
+        margin: 0;
+        font-size: 12px;
+        color: #c00;
+    }
+
     &__remember {
         display: flex;
         align-items: center;
