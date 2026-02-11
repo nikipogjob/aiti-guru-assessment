@@ -14,6 +14,7 @@ export function saveToken(token: string, mode: StorageMode) {
     getStorage(mode).setItem(LS_KEY, token);
 
     getStorage(mode === 'persist' ? 'session' : 'persist').removeItem(LS_KEY);
+
 }
 
 export function clearToken() {

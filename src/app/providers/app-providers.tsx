@@ -3,7 +3,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import type { ReactNode } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { AuthBootstrap } from './auth-bootstrap';
 
 const queryClient = new QueryClient();
 
@@ -15,7 +14,7 @@ export function AppProviders({ children }: Props) {
     return (
         <QueryClientProvider client={queryClient}>
             <BrowserRouter>
-                <AuthBootstrap />
+
                 {children}
                 <ToastContainer />
             </BrowserRouter>

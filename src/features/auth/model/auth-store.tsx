@@ -10,7 +10,7 @@ type AuthState = {
 };
 
 export const useAuthStore = create<AuthState>((set) => ({
-    token: null,
+    token: readToken(),
     setToken: (token) => set({ token }),
 
     initFromStorage: () => {
