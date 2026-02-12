@@ -1,0 +1,12 @@
+.products__header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.products__searchInput {
+    min-width: 1023px;
+    min-height: 48px;
+    background-color: #F3F3F3;
+    border: 1px solid #cfcfcf;
+    border-radius: 8px;
+}
