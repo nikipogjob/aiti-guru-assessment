@@ -7,4 +7,24 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    --color-white: #ffffff;
+    --color-bg: #f6f6f6;
+
+    --color-surface: #ffffff;
+
+    --color-input-bg: #f3f3f3;
+    --color-border: #e2e2e2;
+    --color-text: #222222;
+    --color-muted: #999999;
+
+    --container-padding: 48px;
+
+    --container-max: 1920px;
+
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
 }

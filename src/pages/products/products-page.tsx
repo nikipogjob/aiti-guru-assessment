@@ -15,7 +15,7 @@ const MOCK: Product[] = [
         sku: 'RCH45Q1A',
         rating: 4.3,
         category: 'beauty',
-        price: 48652,
+        price: 48652.22,
     },
     {
         id: 2,
@@ -60,32 +60,29 @@ const MOCK: Product[] = [
 export default function ProductsPage() {
 
     return (
-        <main>
+        <main className={styles.products}>
             <ProductsHeader />
             <section className={styles.products__content} aria-label="Список товаров">
-                <div className={styles.products__titleWrapper}>
-                    <h2 className={styles.products__title}>
-                        Все позиции
-                    </h2>
-                    <div className={styles.products__buttons}>
-
-                        <button className={styles.products__iconButton} type="button" aria-label="Обновить список">
-                            <RefreshIcon />
-                        </button>
-
-                        <button className={styles.products__addButton} type="button">
-                            <span className={styles.products__addButtonIconWrapper} aria-hidden="true">
-                                <PlusCircleIcon />
-                            </span>
-                            Добавить
-                        </button>
+                <div className={styles.products__container}>
+                    <div className={styles.products__titleWrapper}>
+                        <h2 className={styles.products__title}>
+                            Все позиции
+                        </h2>
+                        <div className={styles.products__buttons}>
+                            <button className={styles.products__refreshButton} type="button" aria-label="Обновить список">
+                                <RefreshIcon />
+                            </button>
+                            <button className={styles.products__addButton} type="button">
+                                <span className={styles.products__addButtonIconWrapper} aria-hidden="true">
+                                    <PlusCircleIcon />
+                                </span>
+                                Добавить
+                            </button>
+                        </div>
                     </div>
+                    <ProductsList items={MOCK} />
+                    <ProductsFooter />
                 </div>
-                <div className={styles.products__listHeader}>
-
-                </div>
-                <ProductsList items={MOCK} />
-                <ProductsFooter />
             </section>
         </main>
     );

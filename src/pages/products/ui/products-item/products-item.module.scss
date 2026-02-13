@@ -1,9 +1,22 @@
 .productsItem {
+    position: relative;
     display: grid;
     grid-template-columns: 52px 1.8fr 1fr 1fr 0.7fr 0.9fr 140px;
     align-items: center;
     min-height: 70px;
     border-bottom: 1px solid #e2e2e2;
+
+    &--selected::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+
+        width: 3px;
+        background: #3c538e;
+
+    }
 
     &__cell {
         padding: 0 18px;
@@ -13,10 +26,16 @@
     }
 
     &__check {
+        display: block;
+        flex: 0 0 22px;
         width: 22px;
         height: 22px;
         border-radius: 4px;
         border: 1px solid #e2e2e2;
+    }
+
+    &__check--selected {
+        background: #3C538E;
     }
 
     &__nameCell {
@@ -32,8 +51,11 @@
         border-radius: 8px;
         background: #c4c4c4;
         border: 1px solid #e2e2e2;
+
         flex: 0 0 auto
     }
+
+
 
     &__nameText {
         min-width: 0;
@@ -61,5 +83,18 @@
         align-items: center;
         gap: 14px;
     }
+
+    &__pillButton {
+        outline: none;
+        border: none;
+        background: none;
+    }
+
+    &__dotsButton {
+        outline: none;
+        border: none;
+        background: none;
+    }
+
 
 }

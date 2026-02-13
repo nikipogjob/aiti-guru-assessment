@@ -4,18 +4,20 @@ import styles from './products-header.module.scss';
 
 export default function ProductsHeader() {
     return (
-        <header className={styles.products__header}>
-            <h1 className={styles.products__headerTitle}>Товары</h1>
+        <header className={styles.productsHeader}>
+            <div className={styles.productsHeader__inner}>
 
-            <form className={styles.products__search} role="search" aria-label="Поиск товаров">
-                <SearchIcon className={styles.products__searchIcon} />
-                <input
-                    className={styles.products__searchInput}
-                    type="search"
-                    placeholder="Найти"
-                    aria-label="Найти"
-                />
-            </form>
+                <h1 className={styles.productsHeader__title}>Товары</h1>
+                <form className={styles.productsHeader__search} role="search" aria-label="Поиск товаров">
+                    <SearchIcon className={styles.productsHeader__searchIcon} />
+                    <input
+                        className={styles.productsHeader__searchInput}
+                        type="search"
+                        placeholder="Найти"
+                        aria-label="Найти"
+                    />
+                </form>
+            </div>
 
         </header>
     );
