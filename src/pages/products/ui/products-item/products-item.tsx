@@ -37,7 +37,7 @@ export default function ProductsItem({ item }: ProductsItemProps) {
             <div className={styles.productsItem__cell}>
                 {item.rating.toFixed(1)}/5
             </div>
-            <div className={styles.productsItem__cell}>
+            <div className={`${styles.productsItem__cell} ${styles['productsItem__cell--price']}`}>
                 {price}
             </div>
             <div className={styles.productsItem__cell}>

@@ -16,6 +16,7 @@
     }
 
     &__title {
+        font-family: var(--font-family-test);
         grid-column: 1;
         margin: 0;
         font-size: 28px;
