@@ -1,4 +1,4 @@
-export type Product = {
+export interface Product {
     id: number;
     title: string;
     category: string;
@@ -7,6 +7,12 @@ export type Product = {
     rating: number;
     price: number;
     selected?: boolean;
+};
+export interface ProductsResponse {
+    products: Product[];
+    total: number;
+    skip: number;
+    limit: number
 };
 
 export type SortBy = 'price' | 'rating' | 'title';

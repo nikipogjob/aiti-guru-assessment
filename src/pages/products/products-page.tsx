@@ -8,6 +8,8 @@ import PlusCircleIcon from '../../shared/ui/icons/plus-circle-icon';
 import RefreshIcon from '../../shared/ui/icons/refresh-icon';
 import styles from './products-page.module.scss';
 import type { SortBy, SortOrder, SortState } from '../../shared/types/product';
+import { useEffect, useState } from 'react';
+import { useDebouncedValue } from '../../shared/lib/hooks/useDebouncedValue';
 
 
 const PAGE_LIMIT = 5;
@@ -18,8 +20,35 @@ export default function ProductsPage() {
     const [searchParams, setSearchParams] = useSearchParams();
 
     const page = Number(searchParams.get('page') ?? '1');
+
     const sortBy = (searchParams.get('sortBy') as SortBy | null);
     const order = (searchParams.get('order') as SortOrder | null);
+
+    const searchQueryFromUrl = searchParams.get('q') ?? '';
+    const [searchInput, setSearchInput] = useState(searchQueryFromUrl);
+
+    useEffect(() => {
+        setSearchInput(searchQueryFromUrl);
+    }, [searchQueryFromUrl]);
+
+    const debouncedSearchInput = useDebouncedValue(searchInput, 400);
+
+    useEffect(() => {
+        setSearchParams((prevParams) => {
+            const nextParams = new URLSearchParams(prevParams);
+            nextParams.set('page', '1');
+
+            const trimmedSearch = debouncedSearchInput.trim();
+
+            if (trimmedSearch.length > 0) {
+                nextParams.set('q', trimmedSearch);
+            } else {
+                nextParams.delete('q');
+            }
+            return nextParams;
+        });
+    }, [debouncedSearchInput, setSearchParams]);
+
 
     const sort: SortState =
         sortBy && order ? { sortBy, order } : null;
@@ -32,14 +61,16 @@ export default function ProductsPage() {
         queryKey: ['products', {
             limit,
             skip,
-            sortBy: sort?.sortBy,
-            order: sort?.order
+            sortBy,
+            order,
+            searchQuery: searchQueryFromUrl
         }],
         queryFn: () => fetchProducts({
             limit,
             skip,
             sortBy: sort?.sortBy,
-            order: sort?.order
+            order: sort?.order,
+            searchQuery: searchQueryFromUrl
         }),
         placeholderData: keepPreviousData
     });
@@ -84,7 +115,10 @@ export default function ProductsPage() {
 
     return (
         <main className={styles.products}>
-            <ProductsHeader />
+            <ProductsHeader
+                searchInput={searchInput}
+                onSearchChange={setSearchInput}
+            />
             <section className={styles.products__content} aria-label="Список товаров">
                 <div className={styles.products__container}>
                     <div className={styles.products__titleWrapper}>

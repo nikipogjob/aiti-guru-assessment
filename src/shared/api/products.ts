@@ -1,12 +1,5 @@
-import type { Product, SortBy, SortOrder } from '../types/product';
+import type { ProductsResponse, SortBy, SortOrder } from '../types/product';
 import { http } from './http';
-
-export interface ProductsResponse {
-    products: Product[];
-    total: number;
-    skip: number;
-    limit: number
-};
 
 
 export async function fetchProducts(params: {
@@ -14,10 +7,21 @@ export async function fetchProducts(params: {
     skip: number;
     sortBy?: SortBy;
     order?: SortOrder;
+    searchQuery?: string;
 }) {
-    const response = await http.get<ProductsResponse>('/products', {
+    const { searchQuery, ...restParams } = params;
+    const endpoint =
+        searchQuery && searchQuery.trim().length > 0
+            ? '/products/search'
+            : '/products';
+
+    const response = await http.get<ProductsResponse>(endpoint, {
         params: {
-            ...params,
+            ...restParams,
+            ...(
+                searchQuery
+                    ? { q: searchQuery.trim() }
+                    : {}),
             select: 'id,title,category,brand,sku,rating,price',
         },
     });
