@@ -31,6 +31,14 @@
     &__headLabel {
         color: #999;
         font-weight: 600;
+
+        &--active {
+
+            cursor: pointer;
+
+        }
     }
+
+
 
 }

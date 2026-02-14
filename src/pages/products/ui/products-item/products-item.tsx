@@ -35,7 +35,7 @@ export default function ProductsItem({ item }: ProductsItemProps) {
                 {item.sku}
             </div>
             <div className={styles.productsItem__cell}>
-                <span className={`${Number(item.rating.toFixed(1)) < 4 ? styles['productsItem__cell--rating'] : ''}`}>
+                <span className={`${Number(item.rating.toFixed(1)) < 3 ? styles['productsItem__cell--rating'] : ''}`}>
                     {item.rating.toFixed(1)}
                 </span>/5
             </div>

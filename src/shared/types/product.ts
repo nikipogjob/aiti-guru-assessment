@@ -8,3 +8,11 @@ export type Product = {
     price: number;
     selected?: boolean;
 };
+
+export type SortBy = 'price' | 'rating' | 'title';
+export type SortOrder = 'asc' | 'desc';
+
+export type SortState = {
+    sortBy: SortBy;
+    order: SortOrder;
+} | null;

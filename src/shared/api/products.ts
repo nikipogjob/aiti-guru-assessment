@@ -1,4 +1,4 @@
-import type { Product } from '../types/product';
+import type { Product, SortBy, SortOrder } from '../types/product';
 import { http } from './http';
 
 export interface ProductsResponse {
@@ -8,9 +8,12 @@ export interface ProductsResponse {
     limit: number
 };
 
+
 export async function fetchProducts(params: {
     limit: number;
     skip: number;
+    sortBy?: SortBy;
+    order?: SortOrder;
 }) {
     const response = await http.get<ProductsResponse>('/products', {
         params: {
@@ -19,5 +22,4 @@ export async function fetchProducts(params: {
         },
     });
     return response.data;
-
 }

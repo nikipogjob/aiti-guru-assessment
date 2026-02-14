@@ -3,6 +3,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import type { ReactNode } from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const queryClient = new QueryClient();
 
@@ -17,6 +18,7 @@ export function AppProviders({ children }: Props) {
 
                 {children}
                 <ToastContainer />
+                <ReactQueryDevtools initialIsOpen={false} />
             </BrowserRouter>
         </QueryClientProvider>
     );
