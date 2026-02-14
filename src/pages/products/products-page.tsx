@@ -1,63 +1,29 @@
-import type { Product } from '../../shared/types/product';
+import { useState } from 'react';
 import PlusCircleIcon from '../../shared/ui/icons/plus-circle-icon';
 import RefreshIcon from '../../shared/ui/icons/refresh-icon';
 import styles from './products-page.module.scss';
 import ProductsFooter from './ui/products-footer/products-footer';
 import ProductsHeader from './ui/products-header/products-header';
 import ProductsList from './ui/products-list/products-list';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { fetchProducts } from '../../shared/api/products';
 
 
-const MOCK: Product[] = [
-    {
-        id: 1,
-        name: 'USB Флэшкарта 16GB',
-        vendor: 'Samsung',
-        sku: 'RCH45Q1A',
-        rating: 4.3,
-        category: 'beauty',
-        price: 48652.22,
-    },
-    {
-        id: 2,
-        name: 'Утюг Braun TexStyle 9',
-        vendor: 'TexStyle',
-        sku: 'DFCHQ1A',
-        rating: 4.9,
-        category: 'fun',
-        price: 4233,
-    },
-    {
-        id: 3,
-        name: 'Смартфон Apple iPhone 17',
-        vendor: 'Apple',
-        sku: 'GUYHD2-X4',
-        rating: 4.7,
-        category: 'sport',
-        price: 88652,
-        selected: true,
-    },
-    {
-        id: 4,
-        name: 'Игровая консоль PlaySta...',
-        vendor: 'Sony',
-        sku: 'HT45Q21',
-        rating: 4.1,
-        category: 'Lorem',
-        price: 56236,
-    },
-    {
-        id: 5,
-        name: 'Фен Dyson Supersonic Nural',
-        vendor: 'Dyson',
-        sku: 'FJHHGF-CR4',
-        rating: 3.3,
-        category: 'Ipse',
-        price: 48652,
-    },
-];
-
+const PAGE_LIMIT = 5;
 
 export default function ProductsPage() {
+
+    const [page, setPage] = useState(1);
+    const limit = PAGE_LIMIT;
+    const skip = (page - 1) * limit;
+
+    const { data, isError, isFetching, isLoading, refetch } = useQuery({
+        queryKey: ['products', { limit, skip }],
+        queryFn: () => fetchProducts({ limit, skip }),
+        placeholderData: keepPreviousData
+    });
+
+    const items = data?.products ?? [];
 
     return (
         <main className={styles.products}>
@@ -69,7 +35,11 @@ export default function ProductsPage() {
                             Все позиции
                         </h2>
                         <div className={styles.products__buttons}>
-                            <button className={styles.products__refreshButton} type="button" aria-label="Обновить список">
+                            <button className={styles.products__refreshButton}
+                                type="button"
+                                aria-label="Обновить список"
+                                onClick={() => refetch()}
+                            >
                                 <RefreshIcon />
                             </button>
                             <button className={styles.products__addButton} type="button">
@@ -80,7 +50,10 @@ export default function ProductsPage() {
                             </button>
                         </div>
                     </div>
-                    <ProductsList items={MOCK} />
+                    {isFetching && <div className={styles.products__progress} />}
+                    {isLoading && <div className={styles.products__state}>Загрузка...</div>}
+                    {isError && <div className={styles.products__state}>Ошибка загрузки</div>}
+                    <ProductsList items={items} />
                     <ProductsFooter />
                 </div>
             </section>

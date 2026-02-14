@@ -23,19 +23,21 @@ export default function ProductsItem({ item }: ProductsItemProps) {
                 <div className={styles.productsItem__nameCell}>
                     <span className={styles.productsItem__thumb} aria-hidden="true" />
                     <div className={styles.productsItem__nameText}>
-                        <div className={styles.productsItem__name}>{item.name}</div>
+                        <div className={styles.productsItem__name}>{item.title}</div>
                         <div className={styles.productsItem__category}>{item.category}</div>
                     </div>
                 </div>
             </div>
             <div className={styles.productsItem__cell}>
-                {item.vendor}
+                {item.brand}
             </div>
             <div className={styles.productsItem__cell}>
                 {item.sku}
             </div>
             <div className={styles.productsItem__cell}>
-                {item.rating.toFixed(1)}/5
+                <span className={`${Number(item.rating.toFixed(1)) < 4 ? styles['productsItem__cell--rating'] : ''}`}>
+                    {item.rating.toFixed(1)}
+                </span>/5
             </div>
             <div className={`${styles.productsItem__cell} ${styles['productsItem__cell--price']}`}>
                 {price}
