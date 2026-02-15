@@ -7,6 +7,12 @@ import { useAuthStore } from '../../features/auth/model/auth-store';
 import { useMutation } from '@tanstack/react-query';
 import { loginApi } from '../../features/auth/api/login';
 import { saveToken, type StorageMode } from '../../features/auth/lib/token-storage';
+import LogoIcon from '../../shared/ui/icons/logo-icon';
+import AuthInput from '../../shared/ui/auth-input/auth-input';
+import UserIcon from '../../shared/ui/icons/user-icon';
+import ResetIcon from '../../shared/ui/icons/reset-icon';
+import PasswordIcon from '../../shared/ui/icons/password-icon';
+import EyeIcon from '../../shared/ui/icons/eye-icon';
 
 const schema = z.object({
     login: z.string().min(1, 'Введите логин'),
@@ -59,6 +65,7 @@ export default function LoginPage() {
     return (
         <main className={styles.auth}>
             <section className={styles.auth__card}>
+                <LogoIcon />
                 <header className={styles.auth__header}>
                     <h1 className={styles.auth__title}>
                         Добро пожаловать!
@@ -68,20 +75,30 @@ export default function LoginPage() {
                     </p>
                 </header>
                 <form className={styles.auth__form} onSubmit={handleSubmit(onFormSubmit)} noValidate>
-                    <div className={styles.auth__field}>
-                        <label className={styles.auth__label} htmlFor="login">
-                            Логин
-                        </label>
-                        <input className={styles.auth__input} id="login" {...register('login')} disabled={isPending} />
-                        <p className={styles.auth__error}>{errors.login?.message}</p>
-                    </div>
-                    <div className={styles.auth__field}>
-                        <label className={styles.auth__label} htmlFor="password">
-                            Пароль
-                        </label>
-                        <input className={styles.auth__input} id="password" type="password" {...register('password')} disabled={isPending} />
-                        <p className={styles.auth__error}>{errors.password?.message}</p>
-                    </div>
+                    <AuthInput
+                        label="Логин"
+                        error={errors.login?.message}
+                        leftIcon={<UserIcon />}
+                        rightIcon={<ResetIcon />}
+                        inputProps={{
+                            id: 'login',
+                            type: 'text',
+                            disabled: isPending,
+                            ...register('login'),
+                        }}
+                    />
+                    <AuthInput
+                        label="Пароль"
+                        error={errors.password?.message}
+                        leftIcon={<PasswordIcon />}
+                        rightIcon={<EyeIcon />}
+                        inputProps={{
+                            id: 'password',
+                            type: 'password',
+                            disabled: isPending,
+                            ...register('password'),
+                        }}
+                    />
                     <label className={styles.auth__remember}>
                         <input className={styles.auth__checkbox} type="checkbox" {...register('remember')} />
                         <span className={styles.auth__rememberText}>Запомнить данные</span>
