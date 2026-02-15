@@ -7,21 +7,30 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const queryClient = new QueryClient();
 
-type Props = {
-    children: ReactNode;
-}
-
-const Router = import.meta.env.PROD ? HashRouter : BrowserRouter;
+type Props = { children: ReactNode };
 
 export function AppProviders({ children }: Props) {
+    const isProd = import.meta.env.PROD;
+
+    const content = (
+        <>
+            {children}
+            <ToastContainer />
+            <ReactQueryDevtools initialIsOpen={false} />
+        </>
+    );
+
     return (
         <QueryClientProvider client={queryClient}>
-            <Router basename={import.meta.env.BASE_URL}>
-                {children}
-                <ToastContainer />
-                <ReactQueryDevtools initialIsOpen={false} />
-            </Router>
-
+            {isProd ? (
+                <HashRouter>
+                    {content}
+                </HashRouter>
+            ) : (
+                <BrowserRouter basename={import.meta.env.BASE_URL}>
+                    {content}
+                </BrowserRouter>
+            )}
         </QueryClientProvider>
     );
 }
