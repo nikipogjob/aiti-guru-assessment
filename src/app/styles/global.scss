@@ -1,10 +1,37 @@
 @use './reset.scss';
+@use './fonts.scss';
 
 :root {
-    /*font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;*/
+
     font-weight: 400;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    --font-family-sans: "Open Sans", Arial, sans-serif;
+    --font-family-test: "Cairo", Arial, sans-serif;
+    --font-family-inter: "Inter", Arial, sans-serif;
+    --font-family-roboto: "Roboto Mono", Arial, sans-serif;
+
+    --color-white: #ffffff;
+    --color-bg: #f6f6f6;
+
+    --color-surface: #ffffff;
+
+    --color-input-bg: #f3f3f3;
+    --color-border: #e2e2e2;
+    --color-text: #222222;
+    --color-muted: #999999;
+
+    --container-padding: 48px;
+
+    --container-max: 1920px;
+
+}
+
+body {
+    font-family: var(--font-family-sans);
+    background-color: var(--color-bg);
+    color: var(--color-text);
 }

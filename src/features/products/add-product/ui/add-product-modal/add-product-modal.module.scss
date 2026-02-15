@@ -1,0 +1,50 @@
+.addProduct {
+    display: grid;
+    gap: 12px;
+
+    &__field {
+        display: grid;
+        gap: 6px;
+    }
+
+    &__label {
+        font-size: 14px;
+        color: #333;
+    }
+
+    &__input {
+        height: 40px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 0 12px;
+    }
+
+    &__error {
+        margin: 0;
+        font-size: 12px;
+        color: #c00;
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 8px;
+    }
+
+    &__cancel,
+    &__submit {
+        height: 40px;
+        padding: 0 14px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        background: #fff;
+        cursor: pointer;
+    }
+
+    &__submit {
+        border-color: transparent;
+        background: #2f4bff;
+        color: #fff;
+    }
+}
