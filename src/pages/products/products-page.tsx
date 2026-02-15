@@ -1,15 +1,17 @@
 import { useSearchParams } from 'react-router-dom';
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useDebouncedValue } from '../../shared/lib/hooks/useDebouncedValue';
 import { fetchProducts } from '../../shared/api/products';
 import ProductsFooter from './ui/products-footer/products-footer';
 import ProductsHeader from './ui/products-header/products-header';
 import ProductsList from './ui/products-list/products-list';
+import AddProductModal from '../../features/products/add-product/ui/add-product-modal/add-product-modal';
 import PlusCircleIcon from '../../shared/ui/icons/plus-circle-icon';
 import RefreshIcon from '../../shared/ui/icons/refresh-icon';
 import styles from './products-page.module.scss';
-import type { SortBy, SortOrder, SortState } from '../../shared/types/product';
-import { useEffect, useState } from 'react';
-import { useDebouncedValue } from '../../shared/lib/hooks/useDebouncedValue';
+import type { Product, SortBy, SortOrder, SortState } from '../../shared/types/product';
+import type { ProductsResponse } from '../../shared/types/product';
 
 
 const PAGE_LIMIT = 5;
@@ -26,6 +28,7 @@ export default function ProductsPage() {
 
     const searchQueryFromUrl = searchParams.get('q') ?? '';
     const [searchInput, setSearchInput] = useState(searchQueryFromUrl);
+    const [isAddOpen, setIsAddOpen] = useState(false);
 
     useEffect(() => {
         setSearchInput(searchQueryFromUrl);
@@ -57,14 +60,18 @@ export default function ProductsPage() {
     const limit = PAGE_LIMIT;
     const skip = (page - 1) * limit;
 
+    const queryClient = useQueryClient();
+
+    const productQueryKey = ['products', {
+        limit,
+        skip,
+        searchQuery: searchQueryFromUrl,
+        sortBy,
+        order
+    }] as const;
+
     const { data, isError, isFetching, isLoading } = useQuery({
-        queryKey: ['products', {
-            limit,
-            skip,
-            sortBy,
-            order,
-            searchQuery: searchQueryFromUrl
-        }],
+        queryKey: productQueryKey,
         queryFn: () => fetchProducts({
             limit,
             skip,
@@ -113,6 +120,19 @@ export default function ProductsPage() {
         });
     };
 
+    const onCreateProductClick = (product: Product) => {
+        queryClient.setQueryData<ProductsResponse>(productQueryKey, (prev) => {
+            if (!prev) {
+                return prev;
+            }
+            return {
+                ...prev,
+                total: prev.total + 1,
+                products: [product, ...prev.products].slice(0, limit),
+            };
+        });
+    };
+
     return (
         <main className={styles.products}>
             <ProductsHeader
@@ -133,7 +153,11 @@ export default function ProductsPage() {
                             >
                                 <RefreshIcon />
                             </button>
-                            <button className={styles.products__addButton} type="button">
+                            <button
+                                className={styles.products__addButton}
+                                type="button"
+                                onClick={() => setIsAddOpen(true)}
+                            >
                                 <span className={styles.products__addButtonIconWrapper} aria-hidden="true">
                                     <PlusCircleIcon />
                                 </span>
@@ -150,6 +174,11 @@ export default function ProductsPage() {
                         onSort={toggleSort}
                     />
                     <ProductsFooter />
+                    <AddProductModal
+                        isOpen={isAddOpen}
+                        onClose={() => setIsAddOpen(false)}
+                        onCreate={onCreateProductClick}
+                    />
                 </div>
             </section>
         </main>
